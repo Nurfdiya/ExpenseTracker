@@ -1,6 +1,5 @@
 package com.nurfadiya.expensetracker.ui.budget
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -50,38 +49,29 @@ class BudgetFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.totalExpense.observe(viewLifecycleOwner) { expense ->
-            val budget = viewModel.budget.value ?: 0L
-            val pct = viewModel.calculatePercentage(expense, budget)
-
-            binding.tvExpenseAmount.text = formatRupiah(expense)
-            binding.tvBudgetAmount.text  = formatRupiah(budget)
-            binding.progressBudget.progress = pct.coerceAtMost(100)
-
-            // Warna progress sesuai kondisi
-            val color = when {
-                pct >= 90 -> Color.RED
-                pct >= 70 -> Color.parseColor("#FFA500")
-                else      -> Color.parseColor("#4CAF50")
-            }
-            binding.progressBudget.progressTintList =
-                android.content.res.ColorStateList.valueOf(color)
-
-            // Warning text
-            binding.tvWarning.visibility = if (pct >= 90) View.VISIBLE else View.GONE
-            binding.tvWarning.text = when {
-                pct >= 100 -> "⚠️ Budget sudah habis!"
-                pct >= 90  -> "⚠️ Budget hampir habis ($pct%)"
-                else       -> ""
-            }
+            updateUI(expense, viewModel.budget.value ?: 0L)
         }
 
-        viewModel.budget.observe(viewLifecycleOwner) {
-            binding.tvBudgetAmount.text = formatRupiah(it)
+        viewModel.budget.observe(viewLifecycleOwner) { budget ->
+            updateUI(viewModel.totalExpense.value ?: 0L, budget)
         }
     }
 
-    private fun formatRupiah(amount: Long): String =
-        NumberFormat.getCurrencyInstance(Locale("id", "ID")).format(amount)
+    private fun updateUI(expense: Long, budget: Long) {
+        val pct = viewModel.calculatePercentage(expense, budget)
+        val remaining = (budget - expense).coerceAtLeast(0L)
+
+        binding.tvExpenseAmount.text = formatRupiah(expense)
+        binding.tvRemainingBudget.text = formatRupiah(remaining)
+        binding.tvUsedPct.text = "$pct%"
+        binding.progressCircle.progress = pct.coerceAtMost(100)
+    }
+
+    private fun formatRupiah(amount: Long): String {
+        return NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+            .format(amount)
+            .replace(",00", "")
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

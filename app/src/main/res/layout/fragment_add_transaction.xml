@@ -10,24 +10,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Header with Back -->
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tambah Transaksi"
-            android:textColor="@color/text_main"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="24dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_directions"
+                android:rotation="180"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="@color/text_main"
+                android:contentDescription="Kembali"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="TAMBAH TRANSAKSI"
+                android:textColor="@color/primary"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.1"/>
+        </RelativeLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="24dp"
             app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/surface"
             app:strokeWidth="1dp"
-            app:strokeColor="#F0F0F0">
+            app:strokeColor="#262C36">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,25 +59,29 @@
                     android:layout_height="wrap_content"
                     android:hint="Nominal (Rp)"
                     android:layout_marginBottom="16dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                    android:textColorHint="@color/text_secondary"
+                    app:hintTextColor="@color/primary"
+                    app:boxStrokeColor="@color/primary"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
+                        android:textColor="@color/text_main"
                         android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:fontFamily="sans-serif-bold"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pilih Kategori"
+                    android:text="Kategori"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"
-                    android:textAllCaps="true"
+                    android:fontFamily="sans-serif-bold"
                     android:layout_marginBottom="8dp"/>
 
                 <com.google.android.material.card.MaterialCardView
@@ -66,13 +89,14 @@
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="0dp"
-                    app:cardBackgroundColor="#F8F9FA"
+                    app:cardBackgroundColor="#1F2937"
+                    app:strokeWidth="0dp"
                     android:layout_marginBottom="16dp">
 
                     <Spinner
                         android:id="@+id/spinnerCategory"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="52dp"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"/>
                 </com.google.android.material.card.MaterialCardView>
@@ -82,32 +106,40 @@
                     android:layout_height="wrap_content"
                     android:hint="Catatan"
                     android:layout_marginBottom="16dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                    android:textColorHint="@color/text_secondary"
+                    app:hintTextColor="@color/primary"
+                    app:boxStrokeColor="@color/primary"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etNote"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_main"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPickDate"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:text="Tanggal: 12 Mei 2024"
-                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:text="Pilih Tanggal"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_marginBottom="24dp"
+                    app:strokeColor="@color/primary"
+                    android:textColor="@color/primary"
+                    app:iconTint="@color/primary"
                     app:icon="@android:drawable/ic_menu_my_calendar"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSave"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:text="Simpan Transaksi"
+                    android:text="SIMPAN"
                     app:cornerRadius="16dp"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/black"
                     android:backgroundTint="@color/primary"/>
 
             </LinearLayout>

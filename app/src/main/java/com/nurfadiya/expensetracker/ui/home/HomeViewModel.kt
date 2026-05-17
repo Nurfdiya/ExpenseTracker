@@ -1,6 +1,7 @@
 package com.nurfadiya.expensetracker.ui.home
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
@@ -17,6 +18,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = TransactionRepository(
         AppDatabase.getInstance(application).transactionDao()
     )
+    
+    private val prefs = application.getSharedPreferences("budget_prefs", Context.MODE_PRIVATE)
 
     // Bulan aktif default = bulan ini (format "yyyy-MM")
     val currentMonth = MutableLiveData(getCurrentMonthPrefix())
@@ -26,6 +29,16 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val totalExpense = currentMonth.switchMap { repository.getTotalByMonth(it) }
     val categorySummary = currentMonth.switchMap { repository.getCategorySummary(it) }
     val dailyTotal = currentMonth.switchMap { repository.getDailyTotal(it) }
+    
+    val budget = MutableLiveData<Long>()
+
+    init {
+        refreshBudget()
+    }
+
+    fun refreshBudget() {
+        budget.value = prefs.getLong("monthly_budget", 0L)
+    }
 
     fun deleteTransaction(transaction: Transaction) {
         viewModelScope.launch { repository.delete(transaction) }

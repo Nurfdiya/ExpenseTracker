@@ -37,6 +37,10 @@ class AddTransactionFragment : Fragment() {
         setupDatePicker()
         observeViewModel()
 
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         // Mode edit jika ada ID
         val editId = if (args.transactionId != -1) args.transactionId else null
         editId?.let {
@@ -53,7 +57,7 @@ class AddTransactionFragment : Fragment() {
 
     private fun setupCategorySpinner() {
         val categories = Category.values()
-        val labels = categories.map { "${it.emoji} ${it.displayName}" }
+        val labels = categories.map { it.displayName }
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,

@@ -19,11 +19,13 @@ class TransactionAdapter(
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(transaction: Transaction) {
-            binding.tvEmoji.text    = transaction.category.emoji
+            val color = android.graphics.Color.parseColor(transaction.category.colorCode)
+            binding.ivCategoryIcon.setImageResource(transaction.category.iconRes)
+            binding.ivCategoryIcon.imageTintList = android.content.res.ColorStateList.valueOf(color)
             binding.tvCategory.text = transaction.category.displayName
-            binding.tvNote.text     = transaction.note.ifEmpty { "-" }
+            binding.tvNote.text     = transaction.note.ifEmpty { "Tanpa catatan" }
             binding.tvDate.text     = transaction.date
-            binding.tvAmount.text   = formatRupiah(transaction.amount)
+            binding.tvAmount.text   = "-${formatRupiah(transaction.amount)}"
 
             binding.root.setOnClickListener { onItemClick(transaction) }
             binding.btnDelete.setOnClickListener { onItemDelete(transaction) }
@@ -43,7 +45,7 @@ class TransactionAdapter(
 
     private fun formatRupiah(amount: Long): String {
         val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
-        return format.format(amount)
+        return format.format(amount).replace(",00", "").replace("Rp", "Rp")
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Transaction>() {

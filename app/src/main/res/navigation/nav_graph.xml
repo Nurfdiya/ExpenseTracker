@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_home_to_addTransaction"
             app:destination="@id/addTransactionFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
 
     <fragment
@@ -27,5 +30,14 @@
         android:id="@+id/budgetFragment"
         android:name="com.nurfadiya.expensetracker.ui.budget.BudgetFragment"
         android:label="Budget"/>
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.nurfadiya.expensetracker.ui.history.HistoryFragment"
+        android:label="Riwayat">
+        <action
+            android:id="@+id/action_historyFragment_to_addTransactionFragment"
+            app:destination="@id/addTransactionFragment" />
+    </fragment>
 
 </navigation>

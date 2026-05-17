@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:fitsSystemWindows="true">
+    android:background="@color/background">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -17,9 +16,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="20dp">
 
-            <!-- Header Section -->
+            <!-- Top Header -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EXPENSE"
+                    android:textColor="@color/primary"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.1"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    app:cardCornerRadius="12dp"
+                    app:cardBackgroundColor="#1F2937"
+                    app:strokeWidth="0dp"
+                    app:cardElevation="0dp">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_myplaces"
+                        app:tint="@color/text_secondary"/>
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+
+            <!-- Greeting & Main Title -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,9 +65,9 @@
                     android:id="@+id/tvGreeting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Halo, Selamat Datang"
+                    android:text="SELAMAT DATANG 👋"
                     android:textColor="@color/text_secondary"
-                    android:textSize="14sp"
+                    android:textSize="11sp"
                     android:letterSpacing="0.05"
                     android:fontFamily="sans-serif-medium"/>
 
@@ -42,134 +77,83 @@
                     android:layout_height="wrap_content"
                     android:text="Ringkasan Keuangan"
                     android:textColor="@color/text_main"
-                    android:textSize="28sp"
+                    android:textSize="26sp"
                     android:fontFamily="sans-serif-black"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="2dp"
+                    tools:text="Ringkasan Keuangan"/>
             </LinearLayout>
 
-            <!-- Balance Card -->
+            <!-- Main Balance Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                app:cardElevation="8dp"
-                app:cardCornerRadius="28dp"
-                app:cardBackgroundColor="@color/primary"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="24dp"
                 app:strokeWidth="0dp">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="28dp">
+                    android:background="@drawable/bg_card_gradient"
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
                     <TextView
                         android:id="@+id/lblTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total Pengeluaran Bulan Ini"
-                        android:textColor="#CCFFFFFF"
-                        android:textSize="13sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:letterSpacing="0.02"/>
+                        android:text="TOTAL PENGELUARAN BULAN INI"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="10sp"
+                        android:fontFamily="sans-serif-bold"
+                        android:letterSpacing="0.05"/>
 
                     <TextView
                         android:id="@+id/tvTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/lblTotal"
-                        android:layout_marginTop="8dp"
-                        android:text="Rp 0"
-                        android:textColor="@color/white"
-                        android:textSize="34sp"
+                        android:layout_marginTop="4dp"
+                        android:text="Rp0"
+                        android:textColor="@color/primary"
+                        android:textSize="42sp"
                         android:fontFamily="sans-serif-black"
-                        tools:text="Rp 2.500.000"/>
+                        tools:text="Rp2.500.000"/>
 
-                    <!-- Subtle decoration -->
                     <View
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/ic_launcher_foreground"
-                        android:alpha="0.1"
-                        android:layout_marginEnd="-20dp"/>
-
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Analysis Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Analisis"
-                android:textColor="@color/text_main"
-                android:textSize="20sp"
-                android:fontFamily="sans-serif-black"
-                android:layout_marginBottom="16dp"/>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#E0E0E0">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Kategori"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_secondary"
-                        android:fontFamily="sans-serif-medium"
-                        android:layout_marginBottom="8dp"/>
-
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/pieChart"
                         android:layout_width="match_parent"
-                        android:layout_height="240dp"/>
+                        android:layout_height="1dp"
+                        android:background="#15FFFFFF"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tvUsedPercent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Digunakan: 0%"
+                            android:textColor="@color/text_main"
+                            android:textSize="11sp"
+                            android:fontFamily="sans-serif-medium"/>
+
+                        <TextView
+                            android:id="@+id/tvBudget"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="Budget: Rp200.000"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp"
+                            android:fontFamily="sans-serif-medium"/>
+                    </RelativeLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#E0E0E0">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tren Harian"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_secondary"
-                        android:fontFamily="sans-serif-medium"
-                        android:layout_marginBottom="8dp"/>
-
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/barChart"
-                        android:layout_width="match_parent"
-                        android:layout_height="220dp"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Recent Transactions Section -->
+            <!-- Analysis Header -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -178,33 +162,95 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Transaksi Terbaru"
+                    android:text="ANALISIS"
                     android:textColor="@color/text_main"
-                    android:textSize="20sp"
+                    android:textSize="14sp"
                     android:fontFamily="sans-serif-black"
-                    android:layout_alignParentStart="true"/>
+                    android:letterSpacing="0.1"/>
 
                 <TextView
                     android:id="@+id/tvSeeAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Semua"
+                    android:text="Lihat Semua →"
                     android:textColor="@color/primary"
-                    android:fontFamily="sans-serif-bold"
-                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="11sp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
 
-            <TextView
+            <!-- Empty State -->
+            <LinearLayout
                 android:id="@+id/tvEmpty"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Belum ada transaksi"
-                android:textColor="@color/text_secondary"
-                android:fontFamily="sans-serif-medium"
-                android:visibility="gone"/>
+                android:orientation="vertical"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@android:drawable/ic_dialog_email"
+                    android:alpha="0.3"
+                    app:tint="@color/text_secondary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Belum ada pengeluaran,"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap tombol + untuk menambah."
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"/>
+            </LinearLayout>
+
+            <!-- Charts (Keep them but styled for dark) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCharts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/surface"
+                app:strokeWidth="1dp"
+                app:strokeColor="#262C36">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pieChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#15FFFFFF"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"/>
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTransactions"
@@ -214,7 +260,6 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_transaction"/>
 
-            <!-- Space for FAB -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="100dp"/>
@@ -229,10 +274,10 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
         android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/accent"
-        app:tint="@color/white"
+        app:backgroundTint="@color/primary"
+        app:tint="@color/black"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.App.FAB"
         app:elevation="8dp"
-        app:fabSize="normal"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.MediumComponent"/>
+        app:fabSize="normal"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

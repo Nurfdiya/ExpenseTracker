@@ -5,34 +5,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="2dp"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
     app:cardBackgroundColor="@color/surface"
-    app:strokeWidth="0dp">
+    app:strokeWidth="1dp"
+    app:strokeColor="#262C36">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:padding="12dp"
         android:gravity="center_vertical">
 
-        <!-- Category Emoji Container -->
+        <!-- Category Icon Container -->
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            app:cardCornerRadius="16dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/primary_light">
+            app:cardBackgroundColor="#1F2937">
 
-            <TextView
-                android:id="@+id/tvEmoji"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="24sp"
-                android:gravity="center"
-                tools:text="🍔"/>
+            <ImageView
+                android:id="@+id/ivCategoryIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                app:tint="@color/primary"
+                tools:src="@drawable/ic_food"
+                android:contentDescription="Category Icon"/>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Transaction Info -->
@@ -41,14 +43,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_marginStart="16dp">
+            android:layout_marginStart="12dp">
 
             <TextView
                 android:id="@+id/tvCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/text_main"
                 tools:text="Makanan &amp; Minuman"/>
 
@@ -56,11 +58,11 @@
                 android:id="@+id/tvNote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textColor="@color/text_secondary"
                 android:fontFamily="sans-serif-medium"
-                android:layout_marginTop="2dp"
-                tools:text="Makan siang bareng teman"
+                android:layout_marginTop="1dp"
+                tools:text="Makan siang"
                 android:maxLines="1"
                 android:ellipsize="end"/>
 
@@ -68,40 +70,34 @@
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
-                android:textColor="#BBBBBB"
+                android:textSize="10sp"
+                android:textColor="#505B69"
                 android:fontFamily="sans-serif-medium"
-                android:layout_marginTop="4dp"
-                tools:text="Senin, 12 Mei 2024"/>
+                android:layout_marginTop="2dp"
+                tools:text="12 Mei 2024"/>
 
         </LinearLayout>
 
-        <!-- Amount & Action -->
-        <LinearLayout
+        <!-- Amount -->
+        <TextView
+            android:id="@+id/tvAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="end">
+            android:fontFamily="sans-serif-black"
+            android:textColor="@color/primary"
+            android:textSize="15sp"
+            tools:text="-Rp50.000"/>
 
-            <TextView
-                android:id="@+id/tvAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:textColor="@color/expense"
-                android:textSize="16sp"
-                tools:text="- Rp 50.000"/>
-
-            <ImageButton
-                android:id="@+id/btnDelete"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@android:drawable/ic_menu_delete"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginTop="4dp"
-                app:tint="#DCDCDC"
-                android:contentDescription="Hapus"/>
-        </LinearLayout>
+        <!-- Delete button (visible on long press or swipe, or just keep it small) -->
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="8dp"
+            app:tint="#404B59"
+            android:contentDescription="Hapus"/>
 
     </LinearLayout>
 

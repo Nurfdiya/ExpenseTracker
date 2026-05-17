@@ -58,6 +58,14 @@ interface TransactionDao {
     """)
     fun getDailyTotal(monthPrefix: String): LiveData<List<DailyTotal>>
 
+    // Semua transaksi urut terbaru
+    @Query("SELECT * FROM transactions ORDER BY date DESC, id DESC")
+    fun getAll(): LiveData<List<Transaction>>
+
+    // Cari transaksi berdasarkan catatan
+    @Query("SELECT * FROM transactions WHERE note LIKE '%' || :query || '%' ORDER BY date DESC, id DESC")
+    fun search(query: String): LiveData<List<Transaction>>
+
     // Transaksi by ID (untuk edit)
     @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun getById(id: Int): Transaction?

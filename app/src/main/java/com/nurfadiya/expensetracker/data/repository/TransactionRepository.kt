@@ -18,6 +18,10 @@ class TransactionRepository(private val dao: TransactionDao) {
     fun getDailyTotal(monthPrefix: String): LiveData<List<DailyTotal>> =
         dao.getDailyTotal(monthPrefix)
 
+    fun getAll(): LiveData<List<Transaction>> = dao.getAll()
+
+    fun search(query: String): LiveData<List<Transaction>> = dao.search(query)
+
     suspend fun insert(transaction: Transaction) = dao.insert(transaction)
 
     suspend fun update(transaction: Transaction) = dao.update(transaction)

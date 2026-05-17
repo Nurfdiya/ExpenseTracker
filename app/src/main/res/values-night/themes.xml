@@ -1,7 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.ExpenseTracker" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Theme.ExpenseTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Consistent with light theme for neon effect -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/primary</item>
+
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="android:windowBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.App.Subtitle1</item>
+    </style>
+
+    <style name="ShapeAppearance.App.FAB" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">14dp</item>
     </style>
 </resources>
