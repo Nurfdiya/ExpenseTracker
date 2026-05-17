@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.nurfadiya.expensetracker.R
 import com.nurfadiya.expensetracker.data.model.Category
 import com.nurfadiya.expensetracker.databinding.FragmentAddTransactionBinding
 import java.util.Calendar
@@ -33,7 +34,7 @@ class AddTransactionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupCategorySpinner()
+        setupCategoryDropdown()
         setupDatePicker()
         observeViewModel()
 
@@ -45,7 +46,7 @@ class AddTransactionFragment : Fragment() {
         val editId = if (args.transactionId != -1) args.transactionId else null
         editId?.let {
             viewModel.loadTransaction(it)
-            binding.btnSave.text = "Update"
+            binding.btnSave.text = "UPDATE"
         }
 
         binding.btnSave.setOnClickListener {
@@ -55,27 +56,24 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
-    private fun setupCategorySpinner() {
+    private fun setupCategoryDropdown() {
         val categories = Category.values()
         val labels = categories.map { it.displayName }
         val adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.item_dropdown, // Use our custom white text + dark bg layout
             labels
-        ).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        )
+        binding.autoCompleteCategory.setAdapter(adapter)
+        binding.autoCompleteCategory.setOnItemClickListener { _, _, position, _ ->
+            viewModel.category.value = categories[position]
         }
-        binding.spinnerCategory.adapter = adapter
-        binding.spinnerCategory.onItemSelectedListener =
-            object : android.widget.AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: android.widget.AdapterView<*>?,
-                    view: View?, position: Int, id: Long
-                ) {
-                    viewModel.category.value = categories[position]
-                }
-                override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
-            }
+        
+        // Set default selection
+        if (viewModel.category.value == null) {
+            viewModel.category.value = categories[0]
+            binding.autoCompleteCategory.setText(categories[0].displayName, false)
+        }
     }
 
     private fun setupDatePicker() {
@@ -83,10 +81,10 @@ class AddTransactionFragment : Fragment() {
             val cal = Calendar.getInstance()
             DatePickerDialog(
                 requireContext(),
+                R.style.Theme_App_AlertDialog,
                 { _, year, month, day ->
                     val dateStr = "%04d-%02d-%02d".format(year, month + 1, day)
                     viewModel.date.value = dateStr
-                    binding.btnPickDate.text = dateStr
                 },
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
@@ -97,7 +95,7 @@ class AddTransactionFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.date.observe(viewLifecycleOwner) {
-            binding.btnPickDate.text = it
+            binding.btnPickDate.text = "Tanggal: $it"
         }
 
         viewModel.isSaved.observe(viewLifecycleOwner) { saved ->
@@ -109,6 +107,10 @@ class AddTransactionFragment : Fragment() {
 
         viewModel.errorMsg.observe(viewLifecycleOwner) { msg ->
             msg?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+        }
+        
+        viewModel.category.observe(viewLifecycleOwner) { cat ->
+            binding.autoCompleteCategory.setText(cat.displayName, false)
         }
     }
 

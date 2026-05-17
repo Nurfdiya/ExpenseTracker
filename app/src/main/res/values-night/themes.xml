@@ -16,6 +16,48 @@
         <item name="colorSurface">@color/surface</item>
 
         <item name="textAppearanceSubtitle1">@style/TextAppearance.App.Subtitle1</item>
+
+        <!-- Dialog theme -->
+        <item name="alertDialogTheme">@style/Theme.App.AlertDialog</item>
+        <item name="materialAlertDialogTheme">@style/Theme.App.AlertDialog</item>
+
+        <!-- Spinner style fixes -->
+        <item name="spinnerStyle">@style/Widget.App.Spinner</item>
+        <item name="android:spinnerItemStyle">@style/Widget.App.SpinnerItem</item>
+        <item name="android:spinnerDropDownItemStyle">@style/Widget.App.SpinnerDropDownItem</item>
+
+        <!-- Dropdown / Popup Style -->
+        <item name="listPopupWindowStyle">@style/Widget.App.ListPopupWindow</item>
+    </style>
+
+    <style name="Widget.App.ListPopupWindow" parent="Widget.MaterialComponents.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/surface</item>
+    </style>
+
+    <style name="Theme.App.AlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="android:background">@color/background</item>
+        <item name="android:textColorPrimary">@color/text_main</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="colorAccent">@color/primary</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button.TextButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.App.Button.TextButton</item>
+    </style>
+
+    <style name="Widget.App.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <style name="Widget.App.Spinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:backgroundTint">@color/primary</item>
+    </style>
+
+    <style name="Widget.App.SpinnerItem" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Widget.App.SpinnerDropDownItem" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/surface</item>
     </style>
 
     <style name="ShapeAppearance.App.FAB" parent="ShapeAppearance.MaterialComponents.MediumComponent">

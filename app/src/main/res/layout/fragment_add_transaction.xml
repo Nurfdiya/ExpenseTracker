@@ -69,37 +69,34 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:textColor="@color/text_main"
-                        android:textSize="18sp"
+                        android:textColor="@color/white"
                         android:fontFamily="sans-serif-bold"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kategori"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="12sp"
-                    android:fontFamily="sans-serif-bold"
-                    android:layout_marginBottom="8dp"/>
-
-                <com.google.android.material.card.MaterialCardView
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCategory"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="#1F2937"
-                    app:strokeWidth="0dp"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:hint="Kategori"
+                    android:textColorHint="@color/text_secondary"
+                    app:hintTextColor="@color/primary"
+                    app:boxStrokeColor="@color/primary"
+                    app:endIconTint="@color/primary">
 
-                    <Spinner
-                        android:id="@+id/spinnerCategory"
+                    <AutoCompleteTextView
+                        android:id="@+id/autoCompleteCategory"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"/>
-                </com.google.android.material.card.MaterialCardView>
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:textColor="@color/white"
+                        android:fontFamily="sans-serif-bold"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -115,7 +112,7 @@
                         android:id="@+id/etNote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_main"/>
+                        android:textColor="@color/white"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 

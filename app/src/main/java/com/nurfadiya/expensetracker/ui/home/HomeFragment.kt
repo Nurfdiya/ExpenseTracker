@@ -122,11 +122,21 @@ class HomeFragment : Fragment() {
         // Total pengeluaran
         viewModel.totalExpense.observe(viewLifecycleOwner) { total ->
             binding.tvTotal.text = formatRupiah(total)
-            updatePercentage(total, viewModel.budget.value ?: 0L)
+            val budget = viewModel.budget.value ?: 0L
+            updatePercentage(total, budget)
+            updateSpendingInsight(total, budget)
         }
 
         // PieChart — per kategori
         viewModel.categorySummary.observe(viewLifecycleOwner) { summaries ->
+            if (summaries.isNotEmpty()) {
+                val variableExpenses = summaries.filter { !it.category.isFixed }
+                val mostSpent = variableExpenses.maxByOrNull { it.total }
+                binding.tvMostSpentCategory.text = "Kategori terboros: ${mostSpent?.category?.displayName ?: "-"}"
+            } else {
+                binding.tvMostSpentCategory.text = "Kategori terboros: -"
+            }
+
             val entries = summaries.map {
                 PieEntry(it.total.toFloat(), "") // No text label on slice
             }
@@ -177,6 +187,14 @@ class HomeFragment : Fragment() {
 
         // BarChart — per hari
         viewModel.dailyTotal.observe(viewLifecycleOwner) { dailyList ->
+            if (dailyList.isNotEmpty()) {
+                val total = dailyList.sumOf { it.total }
+                val avg = total / dailyList.size
+                binding.tvDailyAverage.text = "Rata-rata harian: ${formatRupiah(avg)}"
+            } else {
+                binding.tvDailyAverage.text = "Rata-rata harian: Rp0"
+            }
+
             if (dailyList.isEmpty()) return@observe
 
             // Ensure unique dates and proper sorting
@@ -234,6 +252,29 @@ class HomeFragment : Fragment() {
     private fun updatePercentage(total: Long, budget: Long) {
         val percent = if (budget > 0) (total.toFloat() / budget * 100).toInt() else 0
         binding.tvUsedPercent.text = "Digunakan: $percent%"
+    }
+
+    private fun updateSpendingInsight(total: Long, budget: Long) {
+        if (budget <= 0) {
+            binding.tvSpendingStatus.text = "Status: Budget belum diatur"
+            binding.tvSpendingStatus.setTextColor(android.graphics.Color.WHITE)
+            return
+        }
+        val percent = (total.toFloat() / budget * 100).toInt()
+        when {
+            percent < 50 -> {
+                binding.tvSpendingStatus.text = "Status: Sangat Aman 🟢"
+                binding.tvSpendingStatus.setTextColor(resources.getColor(R.color.primary, null))
+            }
+            percent < 80 -> {
+                binding.tvSpendingStatus.text = "Status: Perlu Waspada 🟡"
+                binding.tvSpendingStatus.setTextColor(android.graphics.Color.parseColor("#F59E0B"))
+            }
+            else -> {
+                binding.tvSpendingStatus.text = "Status: Hampir Melebihi! 🔴"
+                binding.tvSpendingStatus.setTextColor(android.graphics.Color.parseColor("#FF7B72"))
+            }
+        }
     }
 
     private fun formatRupiah(amount: Long): String {
