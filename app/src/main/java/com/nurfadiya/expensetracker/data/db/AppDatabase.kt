@@ -9,13 +9,16 @@ import androidx.room.TypeConverters
 import com.nurfadiya.expensetracker.data.model.Category
 import com.nurfadiya.expensetracker.data.model.Transaction
 
-// Type converter untuk enum Category
 class Converters {
     @TypeConverter
     fun fromCategory(category: Category): String = category.name
 
     @TypeConverter
-    fun toCategory(name: String): Category = Category.valueOf(name)
+    fun toCategory(name: String): Category = try {
+        Category.valueOf(name)
+    } catch (e: Exception) {
+        Category.OTHER
+    }
 }
 
 @Database(entities = [Transaction::class], version = 1, exportSchema = false)
@@ -34,7 +37,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "expense_tracker_db"
-                ).build().also { INSTANCE = it }
+                )
+                .fallbackToDestructiveMigration()
+                .build().also { INSTANCE = it }
             }
         }
     }

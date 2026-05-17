@@ -2,11 +2,17 @@ package com.nurfadiya.expensetracker.data.model
 
 import com.nurfadiya.expensetracker.R
 
-enum class Category(val displayName: String, val colorCode: String, val iconRes: Int) {
-    FOOD("Makan & Minum", "#C1FF72", com.nurfadiya.expensetracker.R.drawable.ic_food),
-    TRANSPORT("Transport", "#4ade80", com.nurfadiya.expensetracker.R.drawable.ic_transport),
-    SHOPPING("Belanja", "#6366F1", com.nurfadiya.expensetracker.R.drawable.ic_shopping),
-    ENTERTAINMENT("Hiburan", "#F59E0B", com.nurfadiya.expensetracker.R.drawable.ic_entertainment),
-    HEALTH("Kesehatan", "#FF7B72", com.nurfadiya.expensetracker.R.drawable.ic_health),
-    OTHER("Lainnya", "#8B949E", com.nurfadiya.expensetracker.R.drawable.ic_other)
+enum class Category(
+    val displayName: String,
+    val colorCode: String,
+    val iconRes: Int,
+    val isFixed: Boolean = false
+) {
+    FOOD("Makan & Minum", "#C1FF72", R.drawable.ic_food, false),
+    TRANSPORT("Transport", "#00D2FF", R.drawable.ic_transport, false),
+    SHOPPING("Belanja", "#FF6B6B", R.drawable.ic_shopping, false),
+    ENTERTAINMENT("Hiburan", "#FFD700", R.drawable.ic_entertainment, false),
+    HEALTH("Kesehatan", "#A78BFF", R.drawable.ic_health, false),
+    CICILAN("Cicilan", "#FF85FF", R.drawable.ic_other, true),
+    OTHER("Lainnya", "#8B949E", R.drawable.ic_other, false)
 }

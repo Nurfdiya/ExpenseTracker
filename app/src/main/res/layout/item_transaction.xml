@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 app:tint="@color/primary"
                 tools:src="@drawable/ic_food"
-                android:contentDescription="Category Icon"/>
+                android:contentDescription="Icon"/>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Transaction Info -->
@@ -45,14 +45,38 @@
             android:orientation="vertical"
             android:layout_marginStart="12dp">
 
-            <TextView
-                android:id="@+id/tvCategory"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:textSize="14sp"
-                android:textColor="@color/text_main"
-                tools:text="Makanan &amp; Minuman"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_main"
+                    tools:text="Kategori"/>
+
+                <TextView
+                    android:id="@+id/tvFixedBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="#1F2937"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:text="WAJIB"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="8sp"
+                    android:fontFamily="sans-serif-black"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvNote"
@@ -62,7 +86,7 @@
                 android:textColor="@color/text_secondary"
                 android:fontFamily="sans-serif-medium"
                 android:layout_marginTop="1dp"
-                tools:text="Makan siang"
+                tools:text="Catatan"
                 android:maxLines="1"
                 android:ellipsize="end"/>
 
@@ -88,7 +112,7 @@
             android:textSize="15sp"
             tools:text="-Rp50.000"/>
 
-        <!-- Delete button (visible on long press or swipe, or just keep it small) -->
+        <!-- Delete button -->
         <ImageButton
             android:id="@+id/btnDelete"
             android:layout_width="32dp"

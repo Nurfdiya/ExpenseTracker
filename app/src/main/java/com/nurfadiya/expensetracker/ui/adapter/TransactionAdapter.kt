@@ -19,10 +19,15 @@ class TransactionAdapter(
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(transaction: Transaction) {
-            val color = android.graphics.Color.parseColor(transaction.category.colorCode)
-            binding.ivCategoryIcon.setImageResource(transaction.category.iconRes)
+            val category = transaction.category
+            val color = android.graphics.Color.parseColor(category.colorCode)
+            
+            binding.ivCategoryIcon.setImageResource(category.iconRes)
             binding.ivCategoryIcon.imageTintList = android.content.res.ColorStateList.valueOf(color)
-            binding.tvCategory.text = transaction.category.displayName
+            
+            binding.tvCategory.text = category.displayName
+            binding.tvFixedBadge.visibility = if (category.isFixed) android.view.View.VISIBLE else android.view.View.GONE
+
             binding.tvNote.text     = transaction.note.ifEmpty { "Tanpa catatan" }
             binding.tvDate.text     = transaction.date
             binding.tvAmount.text   = "-${formatRupiah(transaction.amount)}"
