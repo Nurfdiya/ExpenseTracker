@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.nurfadiya.expensetracker.R
 import com.nurfadiya.expensetracker.databinding.FragmentHomeBinding
@@ -38,16 +41,25 @@ class HomeFragment : Fragment() {
         observeViewModel()
 
         binding.fabAdd.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_addTransaction)
+            try {
+                findNavController().navigate(R.id.action_home_to_addTransaction)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     private fun setupRecyclerView() {
         adapter = TransactionAdapter(
             onItemClick = { transaction ->
-                val action = HomeFragmentDirections
-                    .actionHomeToAddTransaction(transaction.id)
-                findNavController().navigate(action)
+                try {
+                    val bundle = Bundle().apply {
+                        putInt("transactionId", transaction.id)
+                    }
+                    findNavController().navigate(R.id.action_home_to_addTransaction, bundle)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             },
             onItemDelete = { transaction ->
                 viewModel.deleteTransaction(transaction)
@@ -76,35 +88,84 @@ class HomeFragment : Fragment() {
             val dataSet = PieDataSet(entries, "").apply {
                 colors = ColorTemplate.MATERIAL_COLORS.toList()
                 valueTextSize = 12f
+                sliceSpace = 3f
+                valueTextColor = android.graphics.Color.WHITE
             }
             binding.pieChart.apply {
                 data = PieData(dataSet)
                 description.isEnabled = false
                 isDrawHoleEnabled = true
-                holeRadius = 40f
-                animateY(800)
+                holeRadius = 50f
+                setTransparentCircleAlpha(0)
+                setHoleColor(android.graphics.Color.TRANSPARENT)
+                
+                legend.isEnabled = true
+                legend.verticalAlignment = com.github.mikephil.charting.components.Legend.LegendVerticalAlignment.BOTTOM
+                legend.horizontalAlignment = com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER
+                
+                animateY(1200, Easing.EaseInOutQuad)
                 invalidate()
             }
         }
 
         // BarChart — per hari
         viewModel.dailyTotal.observe(viewLifecycleOwner) { dailyList ->
+            if (dailyList.isEmpty()) return@observe
+
             val entries = dailyList.mapIndexed { index, daily ->
                 BarEntry(index.toFloat(), daily.total.toFloat())
             }
             val labels = dailyList.map { it.date.takeLast(2) }
 
-            val dataSet = BarDataSet(entries, "Pengeluaran Harian").apply {
-                color = resources.getColor(R.color.purple_500, null)
+            val dataSet = BarDataSet(entries, "Pengeluaran").apply {
+                color = resources.getColor(R.color.primary, null)
                 valueTextSize = 10f
+                setDrawValues(true)
+                valueFormatter = object : com.github.mikephil.charting.formatter.ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        return if (value > 0) "Rp ${value.toInt() / 1000}k" else ""
+                    }
+                }
             }
 
             binding.barChart.apply {
                 data = BarData(dataSet)
-                xAxis.valueFormatter =
-                    com.github.mikephil.charting.formatter.IndexAxisValueFormatter(labels)
+                
+                // Configure X Axis
+                xAxis.apply {
+                    valueFormatter = IndexAxisValueFormatter(labels)
+                    position = XAxis.XAxisPosition.BOTTOM
+                    setDrawGridLines(false)
+                    granularity = 1f
+                    labelCount = if (labels.size > 7) 7 else labels.size
+                    textColor = resources.getColor(R.color.text_secondary, null)
+                }
+                
+                // Configure Y Axis
+                axisLeft.apply {
+                    setDrawGridLines(true)
+                    gridColor = android.graphics.Color.LTGRAY
+                    textColor = resources.getColor(R.color.text_secondary, null)
+                    axisMinimum = 0f
+                    // Reduce label count to avoid clutter
+                    labelCount = 5
+                }
+                axisRight.isEnabled = false
+                
+                // Interaction
+                setTouchEnabled(true)
+                isDragEnabled = true
+                setScaleEnabled(true)
+                setPinchZoom(true)
+                isDoubleTapToZoomEnabled = true
+                
                 description.isEnabled = false
-                animateY(800)
+                legend.isEnabled = false
+                
+                // Extra space for labels
+                extraBottomOffset = 10f
+                
+                animateY(1000, Easing.EaseInOutQuad)
                 invalidate()
             }
         }
