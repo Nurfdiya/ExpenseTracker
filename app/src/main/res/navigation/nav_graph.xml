@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.nurfadiya.expensetracker.ui.home.HomeFragment"
+        android:label="Home">
+        <action
+            android:id="@+id/action_home_to_addTransaction"
+            app:destination="@id/addTransactionFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/addTransactionFragment"
+        android:name="com.nurfadiya.expensetracker.ui.add.AddTransactionFragment"
+        android:label="Tambah Transaksi">
+        <argument
+            android:name="transactionId"
+            app:argType="integer"
+            android:defaultValue="-1"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/budgetFragment"
+        android:name="com.nurfadiya.expensetracker.ui.budget.BudgetFragment"
+        android:label="Budget"/>
+
+</navigation>
