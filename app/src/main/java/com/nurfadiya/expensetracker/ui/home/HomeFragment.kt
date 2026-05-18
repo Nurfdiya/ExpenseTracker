@@ -138,11 +138,15 @@ class HomeFragment : Fragment() {
             }
 
             val entries = summaries.map {
-                PieEntry(it.total.toFloat(), "") // No text label on slice
+                PieEntry(it.total.toFloat(), it.category.displayName) 
             }
             
             val chartColors = summaries.map { 
-                android.graphics.Color.parseColor(it.category.colorCode)
+                try {
+                    android.graphics.Color.parseColor(it.category.colorCode)
+                } catch (e: Exception) {
+                    android.graphics.Color.GRAY // Default if color code invalid
+                }
             }
 
             val dataSet = PieDataSet(entries, "").apply {
@@ -215,6 +219,19 @@ class HomeFragment : Fragment() {
                 data = BarData(dataSet).apply {
                     barWidth = 0.5f
                 }
+                
+                // Add listener to open daily details
+                setOnChartValueSelectedListener(object : com.github.mikephil.charting.listener.OnChartValueSelectedListener {
+                    override fun onValueSelected(e: com.github.mikephil.charting.data.Entry?, h: com.github.mikephil.charting.highlight.Highlight?) {
+                        e?.let {
+                            val index = it.x.toInt()
+                            val date = uniqueList[index].date
+                            val action = HomeFragmentDirections.actionHomeFragmentToDailyDetailFragment(date)
+                            findNavController().navigate(action)
+                        }
+                    }
+                    override fun onNothingSelected() {}
+                })
                 
                 xAxis.apply {
                     valueFormatter = IndexAxisValueFormatter(labels)

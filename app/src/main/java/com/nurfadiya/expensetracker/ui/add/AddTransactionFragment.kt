@@ -46,7 +46,7 @@ class AddTransactionFragment : Fragment() {
         val editId = if (args.transactionId != -1) args.transactionId else null
         editId?.let {
             viewModel.loadTransaction(it)
-            binding.btnSave.text = "UPDATE"
+            binding.btnSave.text = getString(R.string.button_update)
         }
 
         binding.btnSave.setOnClickListener {
@@ -57,7 +57,7 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun setupCategoryDropdown() {
-        val categories = Category.values()
+        val categories = Category.entries.toTypedArray()
         val labels = categories.map { it.displayName }
         val adapter = ArrayAdapter(
             requireContext(),
@@ -66,12 +66,15 @@ class AddTransactionFragment : Fragment() {
         )
         binding.autoCompleteCategory.setAdapter(adapter)
         binding.autoCompleteCategory.setOnItemClickListener { _, _, position, _ ->
-            viewModel.category.value = categories[position]
+            // Use the index directly as the ID
+            // Since the label list matches Category.values() index,
+            // this will select the correct category enum.
+            viewModel.categoryId.value = position + 1
         }
         
-        // Set default selection
-        if (viewModel.category.value == null) {
-            viewModel.category.value = categories[0]
+        // Set default selection (ID 1 for first category)
+        if (viewModel.categoryId.value == null) {
+            viewModel.categoryId.value = 1
             binding.autoCompleteCategory.setText(categories[0].displayName, false)
         }
     }
@@ -95,7 +98,7 @@ class AddTransactionFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.date.observe(viewLifecycleOwner) {
-            binding.btnPickDate.text = "Tanggal: $it"
+            binding.btnPickDate.text = getString(R.string.tanggal_format, it)
         }
 
         viewModel.isSaved.observe(viewLifecycleOwner) { saved ->
@@ -109,8 +112,13 @@ class AddTransactionFragment : Fragment() {
             msg?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
         }
         
-        viewModel.category.observe(viewLifecycleOwner) { cat ->
-            binding.autoCompleteCategory.setText(cat.displayName, false)
+        viewModel.categoryId.observe(viewLifecycleOwner) { catId ->
+            catId?.let {
+                // it is 1-based ID, so index is it - 1
+                val index = (it - 1).coerceIn(0, Category.entries.size - 1)
+                val category = Category.entries[index]
+                binding.autoCompleteCategory.setText(category.displayName, false)
+            }
         }
     }
 

@@ -23,8 +23,6 @@ interface TransactionDao {
     @Delete
     suspend fun delete(transaction: Transaction)
 
-    // Semua transaksi bulan ini, urut terbaru
-    // monthPrefix contoh: "2026-05"
     @Query("""
         SELECT * FROM transactions 
         WHERE date LIKE :monthPrefix || '%' 
@@ -32,23 +30,21 @@ interface TransactionDao {
     """)
     fun getByMonth(monthPrefix: String): LiveData<List<Transaction>>
 
-    // Total pengeluaran bulan ini
     @Query("""
         SELECT COALESCE(SUM(amount), 0) FROM transactions 
         WHERE date LIKE :monthPrefix || '%'
     """)
     fun getTotalByMonth(monthPrefix: String): LiveData<Long>
 
-    // Total per kategori bulan ini (untuk PieChart)
     @Query("""
-        SELECT category, SUM(amount) as total 
-        FROM transactions 
-        WHERE date LIKE :monthPrefix || '%' 
-        GROUP BY category
+        SELECT c.*, SUM(t.amount) as total 
+        FROM transactions t
+        INNER JOIN categories c ON t.categoryId = c.id
+        WHERE t.date LIKE :monthPrefix || '%' 
+        GROUP BY c.id
     """)
     fun getCategorySummary(monthPrefix: String): LiveData<List<CategorySummary>>
 
-    // Total per hari bulan ini (untuk BarChart)
     @Query("""
         SELECT date, SUM(amount) as total 
         FROM transactions 
@@ -58,15 +54,15 @@ interface TransactionDao {
     """)
     fun getDailyTotal(monthPrefix: String): LiveData<List<DailyTotal>>
 
-    // Semua transaksi urut terbaru
+    @Query("SELECT * FROM transactions WHERE date = :date ORDER BY id DESC")
+    fun getByDate(date: String): LiveData<List<Transaction>>
+
     @Query("SELECT * FROM transactions ORDER BY date DESC, id DESC")
     fun getAll(): LiveData<List<Transaction>>
 
-    // Cari transaksi berdasarkan catatan
     @Query("SELECT * FROM transactions WHERE note LIKE '%' || :query || '%' ORDER BY date DESC, id DESC")
     fun search(query: String): LiveData<List<Transaction>>
 
-    // Transaksi by ID (untuk edit)
     @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun getById(id: Int): Transaction?
 }

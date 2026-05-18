@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.nurfadiya.expensetracker.data.db.AppDatabase
-import com.nurfadiya.expensetracker.data.model.Category
+import com.nurfadiya.expensetracker.data.model.CategoryEntity
 import com.nurfadiya.expensetracker.data.model.Transaction
 import com.nurfadiya.expensetracker.data.repository.TransactionRepository
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class AddTransactionViewModel(application: Application) : AndroidViewModel(appli
 
     val amount   = MutableLiveData("")
     val note     = MutableLiveData("")
-    val category = MutableLiveData(Category.FOOD)
+    val categoryId = MutableLiveData<Int>() // ID Kategori
     val date     = MutableLiveData(getTodayDate())
     val isSaved  = MutableLiveData(false)
     val errorMsg = MutableLiveData<String?>()
@@ -31,7 +31,7 @@ class AddTransactionViewModel(application: Application) : AndroidViewModel(appli
             val transaction = repository.getById(id) ?: return@launch
             amount.value   = transaction.amount.toString()
             note.value     = transaction.note
-            category.value = transaction.category
+            categoryId.value = transaction.categoryId
             date.value     = transaction.date
         }
     }
@@ -44,11 +44,11 @@ class AddTransactionViewModel(application: Application) : AndroidViewModel(appli
         }
 
         val transaction = Transaction(
-            id       = editId ?: 0,
-            amount   = amountVal,
-            category = category.value ?: Category.OTHER,
-            note     = note.value ?: "",
-            date     = date.value ?: getTodayDate()
+            id         = editId ?: 0,
+            amount     = amountVal,
+            categoryId = categoryId.value ?: 1, // Default ID 1
+            note       = note.value ?: "",
+            date       = date.value ?: getTodayDate()
         )
 
         viewModelScope.launch {

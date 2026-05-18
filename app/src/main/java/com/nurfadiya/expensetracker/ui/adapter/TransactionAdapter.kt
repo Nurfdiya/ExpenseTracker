@@ -19,7 +19,10 @@ class TransactionAdapter(
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(transaction: Transaction) {
-            val category = transaction.category
+            // Note: ID in DB is 1-based, Enum is 0-based.
+            // If Category ID is 1 (Makan), Index is 0.
+            val categoryIndex = (transaction.categoryId - 1).coerceIn(0, com.nurfadiya.expensetracker.data.model.Category.values().size - 1)
+            val category = com.nurfadiya.expensetracker.data.model.Category.values()[categoryIndex]
             val color = android.graphics.Color.parseColor(category.colorCode)
             
             binding.ivCategoryIcon.setImageResource(category.iconRes)

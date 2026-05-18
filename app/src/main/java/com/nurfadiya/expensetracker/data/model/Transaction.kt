@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Transaction(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val amount: Long,           // nominal dalam rupiah
-    val category: Category,     // enum kategori
+    val categoryId: Int,        // ID kategori
     val note: String = "",      // catatan opsional
     val date: String            // format "yyyy-MM-dd"
 )

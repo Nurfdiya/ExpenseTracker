@@ -1,6 +1,8 @@
 package com.nurfadiya.expensetracker.data.model
 
+import androidx.room.Embedded
+
 data class CategorySummary(
-    val category: Category,
+    @Embedded val category: CategoryEntity,
     val total: Long
 )

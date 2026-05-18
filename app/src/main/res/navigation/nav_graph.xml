@@ -14,6 +14,18 @@
         <action
             android:id="@+id/action_homeFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_dailyDetailFragment"
+            app:destination="@id/dailyDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dailyDetailFragment"
+        android:name="com.nurfadiya.expensetracker.ui.daily.DailyDetailFragment"
+        android:label="Laporan Harian">
+        <argument
+            android:name="selectedDate"
+            app:argType="string"/>
     </fragment>
 
     <fragment

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Expense Tracker</string>
+    <string name="button_update">UPDATE</string>
+    <string name="tanggal_format">Tanggal: %1$s</string>
+    <string name="laporan_harian_format">Laporan: %1$s</string>
 </resources>
